@@ -14,32 +14,49 @@ function App() {
     const inputDay = parseInt(day);
     const inputMonth = parseInt(month);
     const inputYear = parseInt(year);
-
+  
     if (isNaN(inputDay) || inputDay <= 0 || inputDay > 31) {
       setDayError(true);
       return;
     }
     setDayError(false);
-
+  
     if (isNaN(inputMonth) || inputMonth <= 0 || inputMonth > 12) {
       setMonthError(true);
       return;
     }
     setMonthError(false);
-
+  
     const currentYear = new Date().getFullYear(); // Get the current year
-
-    // ...
-    
+  
     if (isNaN(inputYear) || inputYear <= 0 || inputYear > currentYear) {
       setYearError(true);
       return;
     }
     setYearError(false);
-    
-
+  
+    // Check for February and handle leap year
+    if (inputMonth === 2) {
+      const isLeapYear =
+        (inputYear % 4 === 0 && inputYear % 100 !== 0) || inputYear % 400 === 0;
+  
+      if (isLeapYear && (inputDay <= 0 || inputDay > 29)) {
+        setDayError(true);
+        return;
+      } else if (!isLeapYear && (inputDay <= 0 || inputDay > 28)) {
+        setDayError(true);
+        return;
+      }
+    }
+  
+    // Check for months with 30 days
+    if ([4, 6, 9, 11].includes(inputMonth) && (inputDay <= 0 || inputDay > 30)) {
+      setDayError(true);
+      return;
+    }
+  
     const birthDate = new Date(inputYear, inputMonth - 1, inputDay);
-
+  
     const diffTime = Math.abs(today - birthDate);
     const diffYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365.25));
     const diffMonths = Math.floor(
@@ -50,11 +67,12 @@ function App() {
       (diffTime % (1000 * 60 * 60 * 24 * (365.25 / 12))) /
         (1000 * 60 * 60 * 24)
     );
-
+  
     document.getElementById("yearLabel").textContent = diffYears;
     document.getElementById("monthLabel").textContent = diffMonths;
     document.getElementById("dayLabel").textContent = diffDays;
   }
+  
 
   return (
     <div className='container'>
