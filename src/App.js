@@ -59,10 +59,10 @@ function App() {
   return (
     <div className='container'>
       <Helmet>
-      <meta title="Age Calculator" />
-      <meta name="description" content="Age Calculator" />
-      <meta src="/images/favicon-32x32.png" />
-    </Helmet>
+        <title>Age Calculator</title>
+        <meta name="description" content="Age Calculator" />
+        <link rel="icon" type="image/png" href="/images/favicon-32x32.png" />
+      </Helmet>
       <main className='main'>
         <div className='card'>
           <div className='grid'>
